@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
 
   //log and send initial data to socket
   console.log("connection")
-  socket.emit("connect", payloadAsString)
+  socket.emit("connectComplete", payloadAsString)
 
   socket.on("click", () => {
 
