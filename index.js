@@ -1,5 +1,7 @@
 import { Server } from "socket.io";
 
+let clickCount = 0
+
 const io = new Server(3000, {
     //options
     cors: {
@@ -10,17 +12,54 @@ const io = new Server(3000, {
 
 io.on("connection", (socket) => {
   
-  console.log("connection")
-  io.emit("someoneClicked", msg)
+  //create payload
+  const payload = {
+    totalClicks: clickCount
+  }
 
-  socket.on("click", (msg) => {
-    console.log("click", msg)
-    io.emit("someoneClicked", msg)
+  //payload as string
+  const payloadAsString = JSON.stringify(payload)
+
+  //log and send initial data to socket
+  console.log("connection")
+  socket.emit("connect", payloadAsString)
+
+  socket.on("click", () => {
+
+    //update click counter
+    clickCount += 1
+
+    //create payload
+    const payload = {
+      totalClicks: clickCount,
+      whoClicked: socket.id
+    }
+
+    //payload as string
+    const payloadAsString = JSON.stringify(payload)
+
+    //log and broadcast
+    console.log("click", payloadAsString)
+    io.emit("someoneClicked", payloadAsString)
   });
 
-  socket.on("resetClicks", (msg) => {
-    console.log("resetClicks", msg)
-    io.emit("someoneResetClicks", msg)
+  socket.on("resetClicks", () => {
+
+    //reset click counter
+    clickCount = 0
+
+    //create payload
+    const payload = {
+      totalClicks: clickCount,
+      whoClicked: socket.id
+    }
+
+    //payload as string
+    const payloadAsString = JSON.stringify(payload)
+
+    //log and broadcast
+    console.log("resetClicks", payloadAsString)
+    io.emit("someoneResetClicks", payloadAsString)
   });
 
 });
