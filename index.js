@@ -18,11 +18,11 @@ io.on("connection", (socket) => {
   }
 
   //payload as string
-  const payloadAsString = JSON.stringify(payload)
+  var payloadAsString = JSON.stringify(payload)
 
   //log and send initial data to socket
   console.log("connection")
-  socket.emit("connectComplete", payloadAsString)
+  socket.emit("connectComplete", payload)
 
   socket.on("click", () => {
 
@@ -30,17 +30,17 @@ io.on("connection", (socket) => {
     clickCount += 1
 
     //create payload
-    const payload = {
+    var payload = {
       totalClicks: clickCount,
       whoClicked: socket.id
     }
 
     //payload as string
-    const payloadAsString = JSON.stringify(payload)
+    var payloadAsString = JSON.stringify(payload)
 
     //log and broadcast
-    console.log("click", payloadAsString)
-    io.emit("someoneClicked", payloadAsString)
+    console.log("click", payload)
+    io.emit("someoneClicked", payload)
   });
 
   socket.on("resetClicks", () => {
@@ -54,12 +54,30 @@ io.on("connection", (socket) => {
       whoClicked: socket.id
     }
 
+
     //payload as string
-    const payloadAsString = JSON.stringify(payload)
+    var payloadAsString = JSON.stringify(payload)
 
     //log and broadcast
-    console.log("resetClicks", payloadAsString)
-    io.emit("someoneResetClicks", payloadAsString)
+    console.log("resetClicks", payload)
+    io.emit("someoneResetClicks", payload)
+  });
+
+  socket.on("friendlyNameUpdate", (oldName, newName) =>{
+    console.log("Updating Name...")
+    for (var i = 0; i < payload.length; i++) {
+      if (payload[i].whoClicked === oldName) {
+        console.log(payload.whoClicked + " has changed their name to " + newName)
+        payload[i].whoClicked = newName;
+        return;
+      }
+    }
+    /*
+    var oldName = payloadAsString.whoClicked
+    console.log("oldName = " + oldName)
+    console.log(oldName +" changed name to "+newName)
+    payload.whoClicked = newName
+    payloadAsString = JSON.stringify(payload) */
   });
 
 });
