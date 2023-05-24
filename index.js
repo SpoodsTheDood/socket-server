@@ -1,3 +1,4 @@
+import { json } from "express";
 import { Server } from "socket.io";
 
 let clickCount = 0
@@ -63,16 +64,28 @@ io.on("connection", (socket) => {
     io.emit("someoneResetClicks", payload)
   });
 
-  socket.on("friendlyNameUpdate", (oldName, newName) =>{
+  socket.on("friendlyNameUpdate", (newName) =>{
+    payloadAsString = JSON.stringify(payload)
+    console.log(payloadAsString)
     console.log("Updating Name...")
-    for (var i = 0; i < payload.length; i++) {
+    payload.whoClicked = newName
+    if(payload.whoClicked == newName){
+      console.log(payload.newName + " name changed.")
+    } else {
+      console.log("Error changing name.")
+    }
+    /*for (var i = 0; i < payload.length; i++) {
+      console.log("Attempting name change of " + payload[i].whoClicked + " to " + newName)
       if (payload[i].whoClicked === oldName) {
         console.log(payload.whoClicked + " has changed their name to " + newName)
         payload[i].whoClicked = newName;
         return;
       }
+      else{
+        console.log("Attempt to change "+ payload[i].whoClicked+" unsuccessful. Attempting next name...")
+      }
     }
-    /*
+    
     var oldName = payloadAsString.whoClicked
     console.log("oldName = " + oldName)
     console.log(oldName +" changed name to "+newName)
