@@ -65,32 +65,17 @@ io.on("connection", (socket) => {
   });
 
   socket.on("friendlyNameUpdate", (newName) =>{
-    payloadAsString = JSON.stringify(payload)
     console.log(payloadAsString)
-    console.log("Updating Name...")
-    payload.whoClicked = newName
-    if(payload.whoClicked == newName){
-      console.log(payload.newName + " name changed.")
-    } else {
-      console.log("Error changing name.")
-    }
-    /*for (var i = 0; i < payload.length; i++) {
-      console.log("Attempting name change of " + payload[i].whoClicked + " to " + newName)
-      if (payload[i].whoClicked === oldName) {
-        console.log(payload.whoClicked + " has changed their name to " + newName)
-        payload[i].whoClicked = newName;
-        return;
-      }
-      else{
-        console.log("Attempt to change "+ payload[i].whoClicked+" unsuccessful. Attempting next name...")
+    var oldName = payload.whoClicked
+    payloadAsString = JSON.stringify(payload)
+    console.log("Updating Name of " + payload[1] + "...")
+    for (var i = 0; i < payload.length; i++){
+      if(oldName == payload[i][whoClicked]){
+        json[i][whoClicked] = newName
+        print(oldName+" name successfully changed to " + newName)
       }
     }
     
-    var oldName = payloadAsString.whoClicked
-    console.log("oldName = " + oldName)
-    console.log(oldName +" changed name to "+newName)
-    payload.whoClicked = newName
-    payloadAsString = JSON.stringify(payload) */
   });
 
 });
