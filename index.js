@@ -64,15 +64,26 @@ io.on("connection", (socket) => {
     io.emit("someoneResetClicks", payload)
   });
 
-  socket.on("friendlyNameUpdate", (newName) =>{
-    console.log(payloadAsString)
-    var oldName = payload.whoClicked
-    payloadAsString = JSON.stringify(payload)
-    console.log("Updating Name of " + payload[1] + "...")
-    for (var i = 0; i < payload.length; i++){
-      if(oldName == payload[i][whoClicked]){
-        json[i][whoClicked] = newName
+  socket.on("friendlyNameUpdate",  (newName) =>{
+
+    const payload = {
+      totalClicks: clickCount,
+      whoClicked: socket.id
+    }
+    var payloadAsString = JSON.stringify(payload)
+    var parsedPayload = JSON.parse(payload)
+    console.log(typeof parsedPayload)
+    console.log(JSON.stringify(payload))
+    console.log(newName)
+    var oldName = JSON.stringify(socket.id)
+    for (var i = 0; i < Object.keys(payload).length; i++){
+      console.log("Attempting " + parsedPayload[i] + " Name Update...")
+      if(oldName == payload[whoClicked][i]){
+        payload[whoClicked][i] = newName
         print(oldName+" name successfully changed to " + newName)
+      }
+      else{
+        console.log("Change unsuccessful. Attempting next...")
       }
     }
     
