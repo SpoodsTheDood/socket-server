@@ -85,15 +85,10 @@ io.on("connection", (socket) => {
         return;
       }
       else{
-        console.log("Attempt to change "+ payload[i].whoClicked+" unsuccessful. Attempting next name...")
+        console.log("Change unsuccessful. Attempting next...")
       }
     }
     
-    var oldName = payloadAsString.whoClicked
-    console.log("oldName = " + oldName)
-    console.log(oldName +" changed name to "+newName)
-    payload.whoClicked = newName
-    payloadAsString = JSON.stringify(payload) */
   });
 
 });
