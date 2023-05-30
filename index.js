@@ -71,15 +71,15 @@ io.on("connection", (socket) => {
       whoClicked: socket.id
     }
     var payloadAsString = JSON.stringify(payload)
-    var parsedPayload = JSON.parse(payload)
+    var parsedPayload = JSON.parse(payloadAsString)
     console.log(typeof parsedPayload)
     console.log(JSON.stringify(payload))
     console.log(newName)
     var oldName = JSON.stringify(socket.id)
     for (var i = 0; i < Object.keys(payload).length; i++){
       console.log("Attempting " + parsedPayload[i] + " Name Update...")
-      if(oldName == payload[whoClicked][i]){
-        payload[whoClicked][i] = newName
+      if(oldName == payload[1][i]){
+        payload[1][i] = newName
         print(oldName+" name successfully changed to " + newName)
       }
       else{
