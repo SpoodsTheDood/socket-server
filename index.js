@@ -79,6 +79,8 @@ io.on("connection", (socket) => {
     console.log("Updating Name...")
     console.log(payload.whoClicked + " has been approved")
     socket.id = newName
+
+    io.emit("successfulChange")
   })
 })
 
