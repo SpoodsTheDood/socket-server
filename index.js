@@ -65,6 +65,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("friendlyNameUpdate", (newName) =>{
+    //testing
     console.log(newName + " received!")
     const payload = {
       totalClicks: clickCount,
@@ -77,19 +78,7 @@ io.on("connection", (socket) => {
     console.log(payloadAsString)
     console.log("Updating Name...")
     console.log(payload.whoClicked + " has been approved")
-    /*for (var i = 0; i < payload.length; i++) {
-      console.log("Attempting name change of " + payload[i].whoClicked + " to " + newName)
-      if (payload[i].whoClicked === oldName) {
-        console.log(payload.whoClicked + " has changed their name to " + newName)
-        payload[i].whoClicked = newName;
-        return;
-      }
-      else{
-        console.log("Change unsuccessful. Attempting next...")
-      }
-    }
-    
-  });
-
-});
+    socket.id = newName
+  })
+})
 
