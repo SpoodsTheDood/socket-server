@@ -3,6 +3,8 @@ import { Server } from "socket.io";
 
 let clickCount = 0
 
+//server = http.c
+
 const io = new Server(3000, {
     //options
     cors: {
